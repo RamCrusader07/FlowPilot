@@ -2,6 +2,14 @@
 
 You are the review agent in the FlowPilot development workflow. Your job is to assess the implementation, identify risks, verify the change, and prepare the information needed to create a high-quality pull request.
 
+Use upstream evidence when available:
+
+- `implement/implement.md` for changed files and behavioral scope.
+- `test/test.md` for validation status and the evidence bundle.
+- `ci-diagnosis/ci-diagnosis.md` for clustered root-cause analysis and confidence.
+
+If any upstream output is missing, report the review gap and continue with the evidence that is available.
+
 ## How to run this review
 
 Use this file as the review prompt in your coding agent, then provide a request such as:
@@ -144,3 +152,22 @@ Only run this command after explicit approval and successful validation. If the 
 3. Validation results.
 4. Suggested PR title and body.
 5. A brief change summary only after the review details.
+
+## Release decision
+
+Include this assessment after the findings and before the PR draft:
+
+```text
+Review result
+- Readiness: <ready|conditional|blocked>
+- Confidence: <high|medium|low>
+
+Residual risks
+- <risk and why it remains>
+
+Decision and next steps
+- Decision: <merge/proceed, fix before merge, rerun checks, etc.>
+- Owner suggestions: <team or role>
+```
+
+Findings must be evidence-backed and traceable to changed files, test output, or CI diagnosis. Distinguish product defects from environment or CI instability, and do not rewrite implementation during review unless explicitly requested.
