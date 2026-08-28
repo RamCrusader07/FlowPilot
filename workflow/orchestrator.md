@@ -65,11 +65,11 @@ Select the model for each agent invocation based on task complexity to minimize 
 
 ### Complexity tiers
 
-| Tier | Criteria | Model recommendation |
-|------|----------|---------------------|
-| **Low** | Single-file change, straightforward logic, clear acceptance criteria, no cross-repo deps, documentation-only, config changes | Fast/cheap model (e.g. GPT-4o Mini, Claude Sonnet) |
-| **Medium** | Multi-file change within one service, moderate logic, known patterns, standard bug fixes, test writing | Balanced model (e.g. GPT-4o, Claude Sonnet) |
-| **High** | Cross-repo changes, new architecture, complex business logic, security-sensitive, schema migrations, API contract changes | Capable model (e.g. Claude Opus, o3) |
+| Tier | Criteria | Model |
+|------|----------|-------|
+| **Low** | Single-file change, straightforward logic, clear acceptance criteria, no cross-repo deps, documentation-only, config changes | `GPT-4o Mini` or `Claude Haiku` |
+| **Medium** | Multi-file change within one service, moderate logic, known patterns, standard bug fixes, test writing | `GPT-4o` or `Claude Sonnet` |
+| **High** | Cross-repo changes, new architecture, complex business logic, security-sensitive, schema migrations, API contract changes | `Claude Opus` or `o3` |
 
 ### How to assess complexity
 
@@ -84,15 +84,15 @@ Select the model for each agent invocation based on task complexity to minimize 
 
 | Agent | Low | Medium | High |
 |-------|-----|--------|------|
-| **analyse** | fast | balanced | capable |
-| **plan** | fast | balanced | capable |
-| **design** | — (skipped) | balanced | capable |
-| **implement** | fast | balanced | capable |
-| **test** | fast | balanced | capable |
-| **review** | balanced | balanced | capable |
+| **analyse** | `GPT-4o Mini` | `Claude Sonnet` | `Claude Opus` |
+| **plan** | `GPT-4o Mini` | `Claude Sonnet` | `Claude Opus` |
+| **design** | — (skipped) | `Claude Sonnet` | `Claude Opus` |
+| **implement** | `GPT-4o Mini` | `GPT-4o` | `Claude Opus` |
+| **test** | `GPT-4o Mini` | `GPT-4o` | `Claude Opus` |
+| **review** | `Claude Sonnet` | `Claude Sonnet` | `Claude Opus` |
 
-- **review** always uses at least a balanced model — it is the final quality gate.
-- If any agent produces output that seems low-quality or incomplete, the orchestrator may retry that step with the next tier up.
+- **review** always uses at least `Claude Sonnet` — it is the final quality gate.
+- If any agent produces low-quality or incomplete output, the orchestrator retries that step with the next tier up (e.g. `GPT-4o Mini` → `Claude Sonnet` → `Claude Opus`).
 
 ---
 
